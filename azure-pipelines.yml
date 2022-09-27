@@ -19,7 +19,7 @@ stages:
       - task: KubernetesManifest@0
         inputs:
           action: 'deploy'
-          kubernetesServiceConnection: 'k8s-appdynamics'
+          kubernetesServiceConnection: 'k8s-appdynamics-admin'
           namespace: 'appdynamics'
           manifests: |
             $(Build.SourcesDirectory)/cluster-agent/cluster-agent-operator.yaml
