@@ -1,0 +1,28 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Pipeline.Workspace)/cluster-agent'
+      artifact: 'manifests'
+      publishLocation: 'pipeline'
+  - task: KubernetesManifest@0
+    inputs:
+      action: 'deploy'
+      kubernetesServiceConnection: 'k8s-appdynamics'
+      namespace: 'appdynamics'
+      manifests: |
+        $(Pipeline.Workspace)/cluster-agent/cluster-agent-operator.yaml
+        $(Pipeline.Workspace)/cluster-agent/cluster-agent.yaml
+        $(Pipeline.Workspace)/cluster-agent/env-configmap-burst.yaml
+        $(Pipeline.Workspace)/cluster-agent/env-configmap.yaml
+      rolloutStatusTimeout: '30'
