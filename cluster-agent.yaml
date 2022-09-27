@@ -1,0 +1,43 @@
+apiVersion: appdynamics.com/v1alpha1
+kind: Clusteragent
+metadata:
+  name: k8s-cluster-agent
+  namespace: appdynamics
+spec:
+  appName: "Dotnet-Cluster-Trial-RW"
+  controllerUrl: "https://kbquesthongkongltd-nfr.saas.appdynamics.com:443"
+  account: "kbquesthongkongltd-nfr"
+  # docker image info
+  image: "docker.io/appdynamics/cluster-agent:21.10.0"
+  serviceAccountName: appdynamics-cluster-agent
+  nsToMonitor:
+    - "dotnet-trial"
+  ### Uncomment the following line if you need pull secret
+  #imagePullSecret: "<your-docker-pull-secret-name>"
+  #
+  # auto-instrumentation config
+  #
+  instrumentationMethod: Env
+  nsToInstrumentRegex: dotnet-trial
+  appNameStrategy: label
+  instrumentationRules:
+    - namespaceRegex: dotnet-trial
+      language: dotnetcore
+      customAgentConfigSource:
+        - configMapName: env-map
+      labelMatch:
+        - name: dotnet-trial
+      appNameLabel: appName
+      imageInfo:
+        image: "docker.io/appdynamics/dotnet-core-agent:21.10.0"
+        agentMountPath: /opt/appdynamics
+    - namespaceRegex: dotnet-trial
+      language: dotnetcore
+      customAgentConfigSource:
+        - configMapName: env-map-burst
+      labelMatch:
+        - name: dotnet-trial-burst
+      appNameLabel: appName
+      imageInfo:
+        image: "docker.io/appdynamics/dotnet-core-agent:21.10.0"
+        agentMountPath: /opt/appdynamics

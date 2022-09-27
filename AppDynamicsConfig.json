@@ -1,0 +1,19 @@
+{
+  "controller": {
+    "host": "kbquesthongkongltd-nfr.saas.appdynamics.com",
+    "port": 443,
+    "account": "kbquesthongkongltd-nfr",
+    "password": "0326cb7c-f584-4dbd-87ea-35530115463c",
+    "ssl": true
+  },
+  "application": {
+    "name": "Dotnet-Cluster-RW-2",
+    "tier": "dotnet-burst",
+    "node": "Instance1",
+	"reusenodename": "true",
+	"nodenameprefix": "prefix"
+  },
+  "feature": [
+    "FULL_AGENT"
+  ]
+}

@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-trial
+  labels:
+    app: dotnet-trial
+    name: dotnet-trial
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    framework: dotnetcore
+    appName: Dotnet-Cluster-Trial-RW
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dotnet-trial
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: dotnet-trial
+      labels:
+        app: dotnet-trial
+    spec:
+      containers:
+      # - env:
+        # - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          # valueFrom:
+            # secretKeyRef:
+              # key: accesskey
+              # name: mysecret
+        # - name: APPDYNAMICS_AGENT_ACCOUNT_NAME
+          # valueFrom:
+            # secretKeyRef:
+              # key: accountname
+              # name: mysecret
+        # - name: ROLE
+          # value: dotnet-trial
+        # - name: APPDYNAMICS_AGENT_NODE_NAME
+          # value: dotnet-trial
+        # - name: APPDYNAMICS_AGENT_TIER_NAME
+          # value: Dotnet-Trial-Services
+        # - name: APPD_ANALYTICS_MONITOR
+          # value: "true"
+        # - name: APPD_DOCKER_VISIBILITY
+          # value: "true"
+        # - name: MACHINE_AGENT_PROPERTIES
+          # value: "-Dappdynamics.sim.enabled=true -Dappdynamics.docker.enabled=true"
+        # - name: APPDYNAMICS_NETVIZ_AGENT_HOST
+          # valueFrom:
+            # fieldRef:
+              # fieldPath: status.hostIP
+      - image: rwongkbquest/aspnetapp-6.0:latest
+        # envFrom:
+          # - configMapRef:
+              # name: env-map
+        imagePullPolicy: Always
+        name: dotnet-trial
+        ports:
+        - containerPort: 80
+        resources: {}
+        # volumeMounts:
+        # - mountPath: /hostroot
+          # name: hostroot
+          # readOnly: true
+        # - mountPath: /var/run
+          # name: docker-sock
+      # restartPolicy: Always
+      # volumes:
+      # - name: hostroot
+        # hostPath:
+          # path: /
+          # type: Directory
+      # - name: docker-sock
+        # hostPath:
+          # path: /var/run
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dotnet-trial
+  name: dotnet-trial
+spec:
+  type: LoadBalancer
+  ports:
+  - name: "80"
+    port: 50000
+    targetPort: 80
+  selector:
+    app: dotnet-trial
+status:
+  loadBalancer: {}
