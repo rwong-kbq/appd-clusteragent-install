@@ -22,5 +22,5 @@ stages:
           kubernetesServiceConnection: 'k8s-appdynamics'
           namespace: 'appdynamics'
           manifests: |
-            $(Pipeline.Workspace)/cluster-agent/cluster-agent-operator.yaml
-            $(Pipeline.Workspace)/cluster-agent/cluster-agent.yaml
+            $(Pipeline.Workspace)/s/cluster-agent/cluster-agent-operator.yaml
+            $(Pipeline.Workspace)/s/cluster-agent/cluster-agent.yaml
