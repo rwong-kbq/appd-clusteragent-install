@@ -23,4 +23,4 @@ stages:
           namespace: 'appdynamics'
           manifests: |
             $(Build.SourcesDirectory)/cluster-agent/cluster-agent-operator.yaml
-            $(Build.SourcesDirectory)/s/cluster-agent/cluster-agent.yaml
+            $(Build.SourcesDirectory)/cluster-agent/cluster-agent.yaml
